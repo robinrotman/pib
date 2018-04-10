@@ -35,6 +35,7 @@ def update_leds(score): #score a and score b #use show_number to parse
         
 
     if score_array[0] <= 9:
+        show_number(led_digit_0, number_blank) #FIX refer to elif
         show_number(led_digit_1, score_array[0])
     elif score_array[0] >= 9:
         print score_array[0]
@@ -44,6 +45,7 @@ def update_leds(score): #score a and score b #use show_number to parse
         show_number(led_digit_1, split_double_digits[1])
 
     if score_array[1] <= 9:
+        show_number(led_digit_2, number_blank) #FIX refer to elif
         show_number(led_digit_3, score_array[1])    
     elif score_array[1] >= 9:
         print score_array[1]
@@ -53,5 +55,5 @@ def update_leds(score): #score a and score b #use show_number to parse
         show_number(led_digit_3, split_double_digits[1])  
 
 
-score = [42, 59]
+score = [22,5]
 update_leds(score)        

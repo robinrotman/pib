@@ -83,9 +83,8 @@ def show_number(num, led_num): #num is placeholder for which digit you want the 
             print ("i is number_" + str(i) + " and here are the leds that should be turned on: " + str(current_display_numbers[getIndex]))
             return current_display_numbers[getIndex] #return those leds to be turned on
 
-        #elif led_num == number_blank:
-        #    current_display_numbers = led.off
-        #    return led.off #led.off
+        elif led_num == number_blank:
+        #    TURN LEDS OFF!!!!
         
               
 
