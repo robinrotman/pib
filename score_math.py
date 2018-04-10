@@ -18,7 +18,7 @@ def update_leds(score): #score a and score b #use show_number to parse
     #led_set = [[a,b],[c,d]]
     #a = str(score).split(",")
     #b = int(a)
-    
+
     #print (current_display_numbers)
 
     score_array = np.asarray(score)
@@ -30,9 +30,9 @@ def update_leds(score): #score a and score b #use show_number to parse
     #p1_score = score[0]
     #p2_score = score[1]
 
-    
+
 #   for i in range(0,1):
-        
+
 
     if score_array[0] <= 9:
         show_number(led_digit_0, number_blank) #FIX refer to elif
@@ -46,14 +46,14 @@ def update_leds(score): #score a and score b #use show_number to parse
 
     if score_array[1] <= 9:
         show_number(led_digit_2, number_blank) #FIX refer to elif
-        show_number(led_digit_3, score_array[1])    
+        show_number(led_digit_3, score_array[1])
     elif score_array[1] >= 9:
         print score_array[1]
         split_double_digits = [int(dig) for dig in str(score_array[1])]
         print (split_double_digits)
         show_number(led_digit_2, split_double_digits[0])
-        show_number(led_digit_3, split_double_digits[1])  
+        show_number(led_digit_3, split_double_digits[1])
 
 
 score = [22,5]
-update_leds(score)        
+update_leds(score)
