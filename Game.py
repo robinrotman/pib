@@ -34,7 +34,7 @@ def setup():
     reset_buttons()
     state = SETUP_STATE
     scores = [0, 0]
-	button1.when_pressed = decrease_max_score
+    button1.when_pressed = decrease_max_score
     button3.when_pressed = increase_max_score
     button2.when_held = play_game
 
@@ -62,23 +62,23 @@ def decrease_max_score():
 
 def increase_max_score():
     time_of_last_interaction = time.time()
-	play_to_score += 1
+    play_to_score += 1
 
 def generate_token():
-	return random.randomInt(1000, 10000)
+    return random.randomInt(1000, 10000)
 
 def reset():
-	time_of_last_interaction = time.time()
-	game_id = None
-	play_to_score = 25
-	scores = [0, 0]
+    time_of_last_interaction = time.time()
+    game_id = None
+    play_to_score = 25
+    scores = [0, 0]
 
 def reset_buttons():
     button1.when_pressed, button2.when_pressed, button3.when_pressed = None
     button1.when_held, button2.when_held, button3.when_held = None
 
 def play_game():
-	reset_buttons()
+    reset_buttons()
     state = GAME_STATE
     button1.when_pressed = increase_player1_score
     button1.when_held = decrease_player1_score
@@ -97,10 +97,10 @@ def game_over():
 
 def sleep():
     reset_buttons()
-	reset()
-	state = SLEEP_STATE
-	button1.when_held = play_game_if_both_pressed
-	button2.when_held = setup_online
+    reset()
+    state = SLEEP_STATE
+    button1.when_held = play_game_if_both_pressed
+    button2.when_held = setup_online
 
 def play_game_if_both_pressed():
     if(button1.is_pressed() and button3.is_pressed()):
