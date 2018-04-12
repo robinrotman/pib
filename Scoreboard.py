@@ -23,7 +23,7 @@ class Scoreboard:
         self.led_values[-1] = self.hyphen_color_value
         self.led_values[-2] = self.hyphen_color_value
 
-    def score_to_digits(score):
+    def score_to_digits(self, score):
         return [score / 10, score % 10]
 
     def show_score(self, home_score, away_score):
