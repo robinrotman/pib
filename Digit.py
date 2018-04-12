@@ -6,7 +6,7 @@ class Digit:
 
     def __init__(self, index):
         self.index = index
-        create_segments()
+        self.create_segments()
 
     def create_segments(self):
         for i in range(8):
