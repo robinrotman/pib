@@ -3,6 +3,7 @@ import time
 import boto3
 import random
 import requests
+import Scoreboard
 
 BUTTON1_GPIO = 4
 BUTTON2_GPIO = 5
@@ -22,22 +23,30 @@ button3 = Button(BUTTON3_GPIO)
 
 button1.hold_time, button2.hold_time, button3.hold_time = BUTTON_HOLD_TIME
 
+scoreboard = Scoreboard('red', 'blue')
 time_of_last_interaction = time.time()
 game_id = None
 state = SLEEP_STATE
 play_to_score = 25
 scores = [0, 0]
 
-def goto_setup:
+def setup:
+    reset_buttons()
     state = SETUP_STATE
+    scores = [0, 0]
+	button1.when_pressed = decrease_max_score
+    button3.when_pressed = increase_max_score
+    button2.when_held = play_game
 
 def increase_score(player_index):
     time_of_last_interaction = time.time()
     scores[player_index] += 1
+    scoreboard.show_score(scores[0], scores[1])
 
 def decrease_score(player_index):
     time_of_last_interaction = time.time()
     scores[player_index] -= 1
+    scoreboard.show_score(scores[0], scores[1])
 
 def increase_player1_score:
     time_of_last_interaction = time.time()
@@ -64,84 +73,67 @@ def reset:
 	play_to_score = 25
 	scores = [0, 0]
 
-def goto_game:
-    state = GAME_STATE
+def reset_buttons:
+    button1.when_pressed, button2.when_pressed, button3.when_pressed = None
+    button1.when_held, button2.when_held, button3.when_held = None
 
-def goto_sleep:
+def play_game:
+	reset_buttons()
+    state = GAME_STATE
+    button1.when_pressed = increase_player1_score
+    button1.when_held = decrease_player1_score
+    button3.when_pressed = increase_player2_score
+    button3.when_held = decrease_player2_score
+    button2.when_held = setup
+
+def game_over:
+    reset_buttons()
+    state = GAME_OVER_STATE
+    button1.when_pressed, button1.when_held, button2.when_pressed, button3.when_pressed, button3.when_held = None
+    button2.when_held = setup
+    if game_id:
+        #write to aws
+    #flash score and winner color
+
+def sleep:
+    reset_buttons()
 	reset()
 	state = SLEEP_STATE
-	button1.when_held, button2.when_held, button3.when_held = goto_setup
+	button1.when_held = play_game_if_both_pressed
+	button2.when_held = setup_online
+
+def play_game_if_both_pressed:
+    if(button1.is_pressed() and button3.is_pressed()):
+        play_game()
+
+def setup_online:
+    token = generate_token()
+    token_as_scores = token_to_score_list(token)
+    #write to aws
+    show_score(token_as_scores[0], token_as_scores[1])
+    # TODO: FINISH THIS
+
+def token_to_score_list(token):
+    return [token / 100, token % 100]
 
 def is_game_over:
-    if ((max(scores) >= play_to_score and has_won_by_two) or max(scores) == 99):
-        state = GAME_OVER_STATE
- 		if game_id:
- 			#write to aws
-        #flash winner score and color(?)
+    return ((max(scores) >= play_to_score and has_won_by_two) or max(scores) == 99)
 
 def has_won_by_two:
     abs(scores[0] - scores[1]) >= 2
 
 def has_reached_timeout:
-    time.time() - time_of_last_interaction >= SLEEP_TIMEOUT
+    return time.time() - time_of_last_interaction >= SLEEP_TIMEOUT
 
 if __name__ == '__main__':
-	goto_sleep()
+    sleep()
     while True:
-	    # sleep state:
-	    # When any button held, wake up -> setup state
-		if state == SLEEP_STATE:
-	        button1.when_held, button2.when_held, button3.when_held = goto_setup
-
-	    elif state == ONLINE_SETUP_STATE:
-	    	# generate random 4 digit number (1000 - 9999)
-	    	token = generate_token()
-	    	# POST /token
-	    	# poll GET /game/current - eventually return the game_id
-	    	# set game_id variable
-	    	# GET /game/{game_id}
-	    	# set stat variables locally
-	    	# transition to game state
-
-	    #Setup state:
-	    #button1: decrease final score
-	    #button2: start game
-	    #button3: increase final score
-	    elif state == SETUP_STATE:
-	    	scores = [0, 0]
-
-	    	button1.when_pressed = decrease_max_score
-	    	button3.when_pressed = increase_max_score
-
-	        button2.when_held = goto_game
-
-	    #Game state:
-	    #button1_press: increase_score(0)
-	    #button1_hold: decrease_score(0)
-	    #button2_press: XXXXX
-	    #button2_hold: go to setup
-	    #button3_press: increase_score(1)
-	    #button3_hold: decrease_score(1)
-	    elif state == GAME_STATE:
-	        button1.when_pressed = increase_player1_score
-	        button1.when_held = decrease_player1_score
-	        button3.when_pressed = increase_player2_score
-	        button3.when_held = decrease_player2_score
-	        button2.when_held = goto_setup
-
-	        while not is_game_over():
-	            #game is running
-
-	    elif state == GAME_OVER_STATE:
-	        button1.when_pressed, button1.when_held, button3.when_pressed, button3.when_held = None
-	        button2.when_held = goto_setup
-	        #send scores to aws
-	        #players have 15 minute window to claim game before locking as unassigned
-
-	    if has_reached_timeout():
-	    	goto_sleep()
-
-	    #player_has_won?
+        while (state != SLEEP_STATE):
+            if(has_reached_timeout()):
+                sleep()
+                break
+            elif(is_game_over()):
+                game_over()
 
 
 #Endpoints
@@ -176,10 +168,9 @@ if __name__ == '__main__':
 
 
 #Misc todo
-# move state checks out of loop
-# have different buttons for quick start and online start
-# should quick start just go straight into game mode?
+# finish online_setup
 # how to restart with online game?
+# cleanup file
 
 
 
