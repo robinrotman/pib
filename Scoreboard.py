@@ -4,7 +4,7 @@ from Digit import Digit
 
 class Scoreboard:
     num_leds = 58
-    led_strip = Apa102PixelStrip(self.num_leds)
+    led_strip = Apa102PixelStrip(num_leds)
     led_values = []
     hyphen_color_value = (1, 1, 1)
     home_color_value = (0, 0, 1)
