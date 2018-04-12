@@ -10,7 +10,7 @@ class Digit:
 
     def create_segments(self):
         for i in range(8):
-            first_led = (self.index * 14) + i
+            first_led = (self.index * 14) + (i * 2)
             self.segments.append(Segment(first_led, first_led + 1))
 
     def leds_for_display_number(self, display_number):
