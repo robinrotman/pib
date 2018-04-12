@@ -67,17 +67,17 @@ def increase_max_score():
 def generate_token():
 	return random.randomInt(1000, 10000)
 
-def reset:
+def reset():
 	time_of_last_interaction = time.time()
 	game_id = None
 	play_to_score = 25
 	scores = [0, 0]
 
-def reset_buttons:
+def reset_buttons():
     button1.when_pressed, button2.when_pressed, button3.when_pressed = None
     button1.when_held, button2.when_held, button3.when_held = None
 
-def play_game:
+def play_game():
 	reset_buttons()
     state = GAME_STATE
     button1.when_pressed = increase_player1_score
@@ -86,7 +86,7 @@ def play_game:
     button3.when_held = decrease_player2_score
     button2.when_held = setup
 
-def game_over:
+def game_over():
     reset_buttons()
     state = GAME_OVER_STATE
     button1.when_pressed, button1.when_held, button2.when_pressed, button3.when_pressed, button3.when_held = None
@@ -95,18 +95,18 @@ def game_over:
         #write to aws
     #flash score and winner color
 
-def sleep:
+def sleep():
     reset_buttons()
 	reset()
 	state = SLEEP_STATE
 	button1.when_held = play_game_if_both_pressed
 	button2.when_held = setup_online
 
-def play_game_if_both_pressed:
+def play_game_if_both_pressed():
     if(button1.is_pressed() and button3.is_pressed()):
         play_game()
 
-def setup_online:
+def setup_online():
     token = generate_token()
     token_as_scores = token_to_score_list(token)
     #write to aws
@@ -116,13 +116,13 @@ def setup_online:
 def token_to_score_list(token):
     return [token / 100, token % 100]
 
-def is_game_over:
+def is_game_over():
     return ((max(scores) >= play_to_score and has_won_by_two) or max(scores) == 99)
 
-def has_won_by_two:
+def has_won_by_two():
     abs(scores[0] - scores[1]) >= 2
 
-def has_reached_timeout:
+def has_reached_timeout():
     return time.time() - time_of_last_interaction >= SLEEP_TIMEOUT
 
 if __name__ == '__main__':
