@@ -20,7 +20,8 @@ class Scoreboard:
 
     def reset_led_values(self):
         self.led_values = [(0, 0, 0)] * self.num_leds
-        self.led_values[-1], self.led_values[-2] = self.hyphen_color_value
+        self.led_values[-1] = self.hyphen_color_value
+        self.led_values[-2] = self.hyphen_color_value
 
     def score_to_digits(score):
         return [score / 10, score % 10]
