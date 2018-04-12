@@ -1,6 +1,6 @@
 from Helpers import color_name_to_rgb_tuple
 from apa102 import Apa102PixelStrip
-import Digit
+from Digit import Digit
 
 class Scoreboard:
     num_leds = 58

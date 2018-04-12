@@ -1,5 +1,5 @@
 from Helpers import number_to_segment
-import Segment
+from Segment import Segment
 
 class Digit:
     segments = []
