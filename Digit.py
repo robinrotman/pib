@@ -4,7 +4,7 @@ from Segment import Segment
 class Digit:
 
     def __init__(self, index):
-        segments = []
+        self.segments = []
         self.index = index
         self.create_segments()
 
