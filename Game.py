@@ -11,11 +11,11 @@ BUTTON3_GPIO = 6
 BUTTON_HOLD_TIME = 3
 SLEEP_TIMEOUT = 15 * 60
 
-SLEEP_STATE: 'sleep',
-SETUP_STATE: 'setup',
-ONLINE_SETUP_STATE: 'online_setup',
-GAME_STATE: 'game',
-GAME_OVER_STATE: 'game_over'
+SLEEP_STATE = 'sleep'
+SETUP_STATE = 'setup'
+ONLINE_SETUP_STATE = 'online_setup'
+GAME_STATE = 'game'
+GAME_OVER_STATE = 'game_over'
 
 button1 = Button(BUTTON1_GPIO)
 button2 = Button(BUTTON2_GPIO)
