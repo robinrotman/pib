@@ -14,7 +14,7 @@ class Scoreboard:
     def __init__(self, home_color, away_color):
         self.home_color_value = color_name_to_rgb_tuple[home_color]
         self.away_color_value = color_name_to_rgb_tuple[away_color]
-        reset_led_values()
+        self.reset_led_values()
         for i in range(4):
             self.digits.append(Digit(i))
 
@@ -26,9 +26,9 @@ class Scoreboard:
         return [score / 10, score % 10]
 
     def show_score(self, home_score, away_score):
-        reset_led_values()
-        numbers_to_display = score_to_digits(home_score)
-        numbers_to_display += score_to_digits(away_score)
+        self.reset_led_values()
+        numbers_to_display = self.score_to_digits(home_score)
+        numbers_to_display += self.score_to_digits(away_score)
 
         leds_to_display = []
         for i in range(len(numbers_to_display)):
