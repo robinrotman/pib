@@ -5,15 +5,13 @@ from Digit import Digit
 class Scoreboard:
     num_leds = 58
     led_strip = Apa102PixelStrip(num_leds)
-    led_values = []
-    hyphen_color_value = (1, 1, 1)
-    home_color_value = (0, 0, 1)
-    away_color_value = (1, 0, 1)
-    digits = []
 
     def __init__(self, home_color, away_color):
+        self.led_values = []
+        self.hyphen_color_value = (1, 1, 1)
         self.home_color_value = color_name_to_rgb_tuple[home_color]
         self.away_color_value = color_name_to_rgb_tuple[away_color]
+        self.digits = []
         self.reset_led_values()
         for i in range(4):
             self.digits.append(Digit(i))

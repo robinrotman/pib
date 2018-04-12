@@ -2,9 +2,9 @@ from Helpers import number_to_segment
 from Segment import Segment
 
 class Digit:
-    segments = []
 
     def __init__(self, index):
+        segments = []
         self.index = index
         self.create_segments()
 
