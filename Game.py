@@ -30,7 +30,7 @@ state = SLEEP_STATE
 play_to_score = 25
 scores = [0, 0]
 
-def setup:
+def setup():
     reset_buttons()
     state = SETUP_STATE
     scores = [0, 0]
@@ -48,23 +48,23 @@ def decrease_score(player_index):
     scores[player_index] -= 1
     scoreboard.show_score(scores[0], scores[1])
 
-def increase_player1_score:
+def increase_player1_score():
     time_of_last_interaction = time.time()
     increase_score(0)
 
-def increase_player2_score:
+def increase_player2_score():
     time_of_last_interaction = time.time()
     increase_score(1)
 
-def decrease_max_score:
+def decrease_max_score():
     time_of_last_interaction = time.time()
     play_to_score -= 1
 
-def increase_max_score:
+def increase_max_score():
     time_of_last_interaction = time.time()
 	play_to_score += 1
 
-def generate_token:
+def generate_token():
 	return random.randomInt(1000, 10000)
 
 def reset:
