@@ -1,9 +1,13 @@
 from gpiozero import Button
 import time
 # import boto3
+import json
 import random
 import requests
 from Scoreboard import Scoreboard
+
+WRITE_TOKEN_URL = ''
+GET_GAME_URL = ''
 
 BUTTON1_GPIO = 4
 BUTTON2_GPIO = 5
@@ -107,6 +111,8 @@ def game_over():
     if game_id:
         #write to aws
         print('write to aws')
+        payload = { 'game_id': game_id, 'home_score': scores[0], 'away_score': scores[1]}
+        req = requests.post(UPDATE_SCORE_URL, json=payload)
     #flash score and winner color
 
 def sleep():
@@ -127,14 +133,24 @@ def setup_online():
     reset_buttons()
     button1.when_held = play_game_if_both_pressed
     token = generate_token()
+    write_token_to_aws(token)
     token_as_scores = token_to_score_list(token)
-    #write to aws
     show_score(token_as_scores[0], token_as_scores[1])
-    # TODO: FINISH THIS
+    while not has_reached_timeout():
+        req = requests.get(GET_GAME_URL)
+        if(req.status_code == 200):
+            res = json.load(req.json())
+            play_to_score = res['play_to_score']
+            break
+        else:
+            sleep(1)
+    if (has_reached_timeout()):
+        sleep()
+    else:
+        play_game()
 
 def token_to_score_list(token):
-    return [token / 100, token % 100]
-    # TODO: fix (see notes below)
+    return [token // 100, token % 100]
 
 def is_game_over():
     return ((max(scores) >= play_to_score and has_won_by_two) or max(scores) == 99)
@@ -145,8 +161,15 @@ def has_won_by_two():
 def has_reached_timeout():
     return time.time() - time_of_last_interaction >= SLEEP_TIMEOUT
 
+def write_token_to_aws(token):
+    payload = { 'token': token }
+    req = requests.post(WRITE_TOKEN_URL, json=payload)
+    res = json.loads(req.json())
+    game_id = res['game_id']
+
 if __name__ == '__main__':
-    sleep()
+    # sleep()
+    play_game()
     while True:
         while (state != SLEEP_STATE):
             if(has_reached_timeout()):
@@ -187,7 +210,6 @@ if __name__ == '__main__':
 
 
 #Misc todo
-# token -> score for ending in 00
 # finish online_setup
 # how to restart with online game?
 # cleanup file
