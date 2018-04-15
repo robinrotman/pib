@@ -34,8 +34,10 @@ class Scoreboard:
             leds_to_display += self.digits[i].leds_for_display_number(numbers_to_display[i])
 
         for led in leds_to_display:
-            self.led_values[led] = self.hyphen_color_value
-
+            if(led <= 27):
+                self.led_values[led] = self.home_color_value
+            else:
+                self.led_values[led] = self.away_color_value
         self.led_strip.value = self.led_values
 
     def sleep(self):
