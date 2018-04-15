@@ -143,7 +143,7 @@ def setup_online():
     token = generate_token()
     # write_token_to_aws(token)
     token_as_scores = token_to_score_list(token)
-    show_score(token_as_scores[0], token_as_scores[1])
+    scoreboard.show_score(token_as_scores[0], token_as_scores[1])
     # while not has_reached_timeout():
     #     req = requests.get(GET_GAME_URL)
     #     if(req.status_code == 200):
