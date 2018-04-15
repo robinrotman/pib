@@ -1,6 +1,6 @@
 from gpiozero import Button
 import time
-import boto3
+# import boto3
 import random
 import requests
 import Scoreboard
