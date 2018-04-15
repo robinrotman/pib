@@ -141,6 +141,7 @@ def setup_online():
     reset_buttons()
     button1.when_held = play_game_if_both_pressed
     token = generate_token()
+    print("TOKEN = %s" % (token))
     # write_token_to_aws(token)
     token_as_scores = token_to_score_list(token)
     scoreboard.show_score(token_as_scores[0], token_as_scores[1])
