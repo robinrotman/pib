@@ -65,6 +65,14 @@ def increase_player2_score():
     time_of_last_interaction = time.time()
     increase_score(1)
 
+def decrease_player1_score():
+    time_of_last_interaction = time.time()
+    decrease_score(0)
+
+def decrease_player2_score():
+    time_of_last_interaction = time.time()
+    decrease_score(1)
+
 def decrease_max_score():
     time_of_last_interaction = time.time()
     play_to_score -= 1
