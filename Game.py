@@ -83,7 +83,7 @@ def increase_max_score():
 
 def generate_token():
     print("GENERATING TOKEN")
-    return random.randomint(1000, 10000)
+    return random.randint(1000, 10000)
 
 def reset():
     print("RESET")
