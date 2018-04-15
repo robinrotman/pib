@@ -33,6 +33,7 @@ play_to_score = 25
 scores = [0, 0]
 
 def setup():
+    print("SETUP")
     reset_buttons()
     state = SETUP_STATE
     scores = [0, 0]
@@ -41,11 +42,13 @@ def setup():
     button2.when_held = play_game
 
 def increase_score(player_index):
+    print("INCREASING PLAYER%d score", % (player_index))
     time_of_last_interaction = time.time()
     scores[player_index] += 1
     scoreboard.show_score(scores[0], scores[1])
 
 def decrease_score(player_index):
+    print("DECREASING PLAYER%d score", % (player_index))
     time_of_last_interaction = time.time()
     scores[player_index] -= 1
     scoreboard.show_score(scores[0], scores[1])
@@ -67,15 +70,18 @@ def increase_max_score():
     play_to_score += 1
 
 def generate_token():
+    print("GENERATING TOKEN")
     return random.randomInt(1000, 10000)
 
 def reset():
+    print("RESET")
     time_of_last_interaction = time.time()
     game_id = None
     play_to_score = 25
     scores = [0, 0]
 
 def reset_buttons():
+    print("RESETTING BUTTONS")
     button1.when_pressed = None
     button2.when_pressed = None
     button3.when_pressed = None
@@ -84,6 +90,7 @@ def reset_buttons():
     button3.when_held = None
 
 def play_game():
+    print("GAME START")
     reset_buttons()
     state = GAME_STATE
     button1.when_pressed = increase_player1_score
@@ -93,6 +100,7 @@ def play_game():
     button2.when_held = setup_online
 
 def game_over():
+    print("GAME OVER")
     reset_buttons()
     state = GAME_OVER_STATE
     button2.when_held = setup_online
@@ -102,6 +110,7 @@ def game_over():
     #flash score and winner color
 
 def sleep():
+    print("GOING TO SLEEP")
     reset_buttons()
     reset()
     state = SLEEP_STATE
@@ -110,9 +119,11 @@ def sleep():
 
 def play_game_if_both_pressed():
     if(button1.is_pressed() and button3.is_pressed()):
+        print("QUICK START")
         play_game()
 
 def setup_online():
+    print("ONLINE SETUP")
     reset_buttons()
     button1.when_held = play_game_if_both_pressed
     token = generate_token()
@@ -129,7 +140,7 @@ def is_game_over():
     return ((max(scores) >= play_to_score and has_won_by_two) or max(scores) == 99)
 
 def has_won_by_two():
-    abs(scores[0] - scores[1]) >= 2
+    return abs(scores[0] - scores[1]) >= 2
 
 def has_reached_timeout():
     return time.time() - time_of_last_interaction >= SLEEP_TIMEOUT
