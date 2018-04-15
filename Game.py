@@ -93,6 +93,7 @@ def game_over():
     button2.when_held = setup
     if game_id:
         #write to aws
+        print('write to aws')
     #flash score and winner color
 
 def sleep():
