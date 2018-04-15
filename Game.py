@@ -76,8 +76,12 @@ def reset():
     scores = [0, 0]
 
 def reset_buttons():
-    button1.when_pressed, button2.when_pressed, button3.when_pressed = None
-    button1.when_held, button2.when_held, button3.when_held = None
+    button1.when_pressed = None
+    button2.when_pressed = None
+    button3.when_pressed = None
+    button1.when_held = None
+    button2.when_held = None
+    button3.when_held = None
 
 def play_game():
     reset_buttons()
@@ -86,13 +90,12 @@ def play_game():
     button1.when_held = decrease_player1_score
     button3.when_pressed = increase_player2_score
     button3.when_held = decrease_player2_score
-    button2.when_held = setup
+    button2.when_held = setup_online
 
 def game_over():
     reset_buttons()
     state = GAME_OVER_STATE
-    button1.when_pressed, button1.when_held, button2.when_pressed, button3.when_pressed, button3.when_held = None
-    button2.when_held = setup
+    button2.when_held = setup_online
     if game_id:
         #write to aws
         print('write to aws')
@@ -110,6 +113,8 @@ def play_game_if_both_pressed():
         play_game()
 
 def setup_online():
+    reset_buttons()
+    button1.when_held = play_game_if_both_pressed
     token = generate_token()
     token_as_scores = token_to_score_list(token)
     #write to aws
