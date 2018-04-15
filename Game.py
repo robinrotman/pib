@@ -21,7 +21,9 @@ button1 = Button(BUTTON1_GPIO)
 button2 = Button(BUTTON2_GPIO)
 button3 = Button(BUTTON3_GPIO)
 
-button1.hold_time, button2.hold_time, button3.hold_time = BUTTON_HOLD_TIME
+button1.hold_time = BUTTON_HOLD_TIME
+button2.hold_time = BUTTON_HOLD_TIME
+button3.hold_time = BUTTON_HOLD_TIME
 
 scoreboard = Scoreboard('red', 'blue')
 time_of_last_interaction = time.time()
