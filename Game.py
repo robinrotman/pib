@@ -42,7 +42,7 @@ def setup():
     button2.when_held = play_game
 
 def increase_score(player_index):
-    print("INCREASING PLAYER%d score", % (player_index))
+    print("INCREASING PLAYER%d score" % (player_index))
     time_of_last_interaction = time.time()
     scores[player_index] += 1
     scoreboard.show_score(scores[0], scores[1])
