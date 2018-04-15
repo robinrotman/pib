@@ -3,7 +3,7 @@ import time
 # import boto3
 import random
 import requests
-import Scoreboard
+from Scoreboard import Scoreboard
 
 BUTTON1_GPIO = 4
 BUTTON2_GPIO = 5
