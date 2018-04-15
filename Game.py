@@ -83,7 +83,7 @@ def increase_max_score():
 
 def generate_token():
     print("GENERATING TOKEN")
-    return random.randomInt(1000, 10000)
+    return random.randomint(1000, 10000)
 
 def reset():
     print("RESET")
@@ -141,21 +141,21 @@ def setup_online():
     reset_buttons()
     button1.when_held = play_game_if_both_pressed
     token = generate_token()
-    write_token_to_aws(token)
+    # write_token_to_aws(token)
     token_as_scores = token_to_score_list(token)
     show_score(token_as_scores[0], token_as_scores[1])
-    while not has_reached_timeout():
-        req = requests.get(GET_GAME_URL)
-        if(req.status_code == 200):
-            res = json.load(req.json())
-            play_to_score = res['play_to_score']
-            break
-        else:
-            sleep(1)
-    if (has_reached_timeout()):
-        sleep()
-    else:
-        play_game()
+    # while not has_reached_timeout():
+    #     req = requests.get(GET_GAME_URL)
+    #     if(req.status_code == 200):
+    #         res = json.load(req.json())
+    #         play_to_score = res['play_to_score']
+    #         break
+    #     else:
+    #         sleep(1)
+    # if (has_reached_timeout()):
+    #     sleep()
+    # else:
+    #     play_game()
 
 def token_to_score_list(token):
     return [token // 100, token % 100]
