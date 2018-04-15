@@ -115,6 +115,7 @@ def setup_online():
 
 def token_to_score_list(token):
     return [token / 100, token % 100]
+    # TODO: fix (see notes below)
 
 def is_game_over():
     return ((max(scores) >= play_to_score and has_won_by_two) or max(scores) == 99)
@@ -152,8 +153,7 @@ if __name__ == '__main__':
 # # Player1: email text input (verifier: ends with "@thelevelup.com")
 # # Player2: email text input (verifier: ends with "@thelevelup.com")
 # # Max Score: integer (verifier 1-99)
-# # Player1 Color: drop down text rgb color
-# # Player2 Color: drop down text rgb color
+# # Token: 4 digit integer (verifier 1000-9999)
 
 # Leaderboard Page
 # sorted descending by winslist of {Player Name} - {Number of wins} - {Number of losses}
@@ -168,6 +168,7 @@ if __name__ == '__main__':
 
 
 #Misc todo
+# token -> score for ending in 00
 # finish online_setup
 # how to restart with online game?
 # cleanup file
