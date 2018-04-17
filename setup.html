@@ -31,15 +31,15 @@
 		color: #ffffff;
 	}
 
-	::placeholder { color: #D1ABF3; } 
+	::placeholder { color: #D1ABF3; }
 
-	::-webkit-input-placeholder { color: #D1ABF3; } 
+	::-webkit-input-placeholder { color: #D1ABF3; }
 
-	::-moz-placeholder { color: #D1ABF3; } 
+	::-moz-placeholder { color: #D1ABF3; }
 
-	:-ms-input-placeholder { color: #D1ABF3; } 
+	:-ms-input-placeholder { color: #D1ABF3; }
 
-	:-moz-placeholder { color: #D1ABF3; } 
+	:-moz-placeholder { color: #D1ABF3; }
 
 	input:active,
 	input:focus {
@@ -73,7 +73,7 @@
 		margin: 0px auto;
 		display: block;
 		margin-top: 50px;
-	}	
+	}
 
 	nav {
 		display: block;
@@ -162,21 +162,21 @@
 		text-align: center;
 	}
 
-	#token input[type=number]::-webkit-inner-spin-button, 
-	#tokeninput[type=number]::-webkit-outer-spin-button { 
-		-webkit-appearance: none; 
-		margin: 0; 
+	#token input[type=number]::-webkit-inner-spin-button,
+	#tokeninput[type=number]::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
 	}
 
 	input:invalid {
 		background-color: #ff3b3b;
-		color: #ffffff !important; 
+		color: #ffffff !important;
 	}
 
 	input:valid {}
 
 	.checked {
-		background-image: url('check.svg'); 
+		background-image: url('check.svg');
 		background-repeat: no-repeat;
 		background-position: right 30px center;
 		background-size: 7%;
@@ -199,7 +199,7 @@
 	}
 
 	h1 {
-		font-family: 
+		font-family:
 	}
 	p {
 		line-height: 1.5em;
@@ -258,12 +258,10 @@
 				<input id="digit-3" type="number" class="token-digit" name="digit-3" min="0" max="9">
 				<input id="digit-4" type="number" class="token-digit" name="digit-4" min="0" max="9">
 			</div>
-			<!-- <input type="submit" class="step-1-submit" value="Enter" onsubmit="step_two()"> -->
-
 		</form>
-		<button class="step-1-submit" onclick="sendToken()">enter</button>
+		<button class="step-1-submit shown" onclick="sendToken()">enter</button>
 
-		<form id="setup-step-2" class="hidden" action="">
+		<form id="setup-step-2" class="hidden">
 			<h1>Last step!</h1>
 			<p>Just enter the max score for your game along emails for Player 1 and Player 2:</p>
 			<span>Don't want to use your LevelUp email or don't have one? Enter guest@thelevelup.com</span>
@@ -273,10 +271,9 @@
 			<input type="email" class="email-user-1" pattern="[\w.%+-]+@thelevelup.com" placeholder="player1@thelevelup.com" required>
 			<p class="instructions">Player 2's LevelUp Email:</p>
 			<input type="email"  class="email-user-2" pattern="[\w.%+-]+@thelevelup.com" placeholder="player2@thelevelup.com" required/>
-			<input type="submit" class="step-2-submit" onsubmit="go()" value="Let's get pibby with it!">
-
-			<!-- <input type="submit" class="step-2-submit" onsubmit="go()" value="Let's get pibby with it!"> -->
 		</form>
+		<button class="step-2-submit hidden" onclick="startGame()">Let's get pibby with it!</button>
+
 	</div>
 
 	<script type="text/javascript">
@@ -288,7 +285,6 @@
 
 			else if (($(this)[0].validity.valid == true) && ($(this)[0].value > 0) && ($(this)[0].type == "number") && ($(this)[0].className == "max-score") ) {
 				$(this).addClass('checked');
-				errorAlert();
 			}
 		});
 
@@ -296,37 +292,33 @@
 			$(this).removeClass('checked');
 		});
 
-
-		function myFunction() {
-			setTimeout(function(){ alert("Hello"); }, 3000);
-		}
-
-
 	</script>
 
 	<script type="text/javascript">
 
+		game_id = null
+		token = null
+
 		function sendToken() {
-			token = $('#digit-1').val() * 1000 + $('#digit-2').val() * 100 + $('#digit-3').val() * 10 + $('#digit-4').val()
+			token = $('#digit-1').val() + $('#digit-2').val() + $('#digit-3').val() + $('#digit-4').val()
 
 			$.ajax({
 				url: 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/token/' + token,
+				headers: {'Content-Type': 'application/json'},
 				type: "GET",
 				dataType: "json",
 				error: function(jqXHR, textStatus, errorThrown) {
+					console.log("BOOO")
              		errorAlert();
              	},
              	success: function(data, textStatus, jqXHR) {
-             		$('.step-1-submit').click(function() {
-             			$('#setup-step-1').toggleClass('hidden shown');
-             			$('#setup-step-2').toggleClass('hidden shown');
-             			$(this).hide();
-             		});
-
-             		// Set another completion function for the request above
-					jqxhr.always(function() {
-						alert( "second finished" );
-					});
+             		console.log("WOOO")
+             		console.log(data)
+             		game_id = data['game_id']
+             		$('#setup-step-1').toggleClass('hidden shown');
+             		$('.step-1-submit').toggleClass('hidden shown');
+             		$('#setup-step-2').toggleClass('hidden shown');
+             		$('.step-2-submit').toggleClass('hidden shown');
 				}
 			});
 		}
@@ -342,42 +334,26 @@
 		}
 
 		function startGame() {
-			//post game id, max score, email, email2
-			//on submit if success redirect to go
-			//if fail show error
-
 			$.ajax({
-				url: '/non-existent-path-adsasd',
+				url: 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/game',
+				headers: {'Content-Type': 'application/json'},
 				type: "POST",
 				dataType: "json",
-				data: {
-					name: "John",
-					location: "Boston"
-				},
+				data: JSON.stringify({
+					token: token,
+					player1: $('.email-user-1').val(),
+					player2: $('.email-user-2').val(),
+					play_to_score: $('.max-score').val()
+				}),
 				error: function(jqXHR, textStatus, errorThrown) {
              		errorAlert();
              	},
              	success: function(data, textStatus, jqXHR) {
-             		$('.step-1-submit').click(function() {
-             			$('#setup-step-1').toggleClass('hidden shown');
-             			$('#setup-step-2').toggleClass('hidden shown');
-             			$(this).hide();
-             		});
-             		// Set another completion function for the request above
-					jqxhr.always(function() {
-						alert( "second finished" );
-					});
+         			window.location.href = 'go.html'
 				}
 			});
 		}
 
-		function go() {
-			window.location.href = "go.html";
-				// document.getElementById('confirmed').onclick = function () {
-	   //      location.href = "go.html";
-	   //  };
-		}
-
-</script>
+	</script>
 </body>
 </html>

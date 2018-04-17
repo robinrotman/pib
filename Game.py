@@ -211,6 +211,7 @@ if __name__ == '__main__':
 # button hold
 # leaderboard endpoint
 # how to restart with online game?
+# need a go.html
 
 
 
