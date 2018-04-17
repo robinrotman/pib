@@ -147,7 +147,7 @@ def setup_online():
     while not has_reached_timeout():
         req = requests.get(GET_GAME_URL_BASE + str(game_id))
         if(req.status_code == 200):
-            res = json.load(req.json())
+            res = req.json()
             play_to_score = res['play_to_score']
             break
         else:
