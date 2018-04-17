@@ -105,6 +105,7 @@ def play_game():
     print("GAME START")
     reset_buttons()
     state = GAME_STATE
+    scoreboard.show_score(scores[0], scores[1])
     button1.when_pressed = increase_player1_score
     button1.when_held = decrease_player1_score
     button3.when_pressed = increase_player2_score
