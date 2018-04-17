@@ -199,6 +199,11 @@ if __name__ == '__main__':
 #Misc todo
 # button hold, other options seem like too much work. for now just have it adding one and then subtracting 2
 # need a go.html
+# add lambdas/aws config to source
+# deploy scripts
+# Game over not working?
+# run python program on boot
+
 
 
 
