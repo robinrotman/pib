@@ -172,7 +172,7 @@ def has_reached_timeout():
 def write_token_to_aws(token):
     payload = { 'token': token }
     req = requests.post(POST_TOKEN_URL, json=payload)
-    res = json.loads(req.json())
+    res = req.json()
     game_id = res['game_id']
 
 if __name__ == '__main__':
