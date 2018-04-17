@@ -151,7 +151,7 @@ def setup_online():
             play_to_score = res['play_to_score']
             break
         else:
-            sleep(1)
+            time.sleep(1)
     if (has_reached_timeout()):
         sleep()
     else:
