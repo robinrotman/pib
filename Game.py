@@ -141,7 +141,7 @@ def setup_online():
     button1.when_held = play_game_if_both_pressed
     token = generate_token()
     print("TOKEN = %s" % (token))
-    write_token_to_aws(token)
+    game_id = write_token_to_aws(token)
     token_as_scores = token_to_score_list(token)
     scoreboard.show_score(token_as_scores[0], token_as_scores[1])
     while not has_reached_timeout():
@@ -175,6 +175,7 @@ def write_token_to_aws(token):
     res = req.json()
     game_id = res['game_id']
     print("GAME_ID = %s" % (game_id))
+    return game_id
 
 if __name__ == '__main__':
     sleep()
