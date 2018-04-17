@@ -1,13 +1,13 @@
 from gpiozero import Button
 import time
-# import boto3
 import json
 import random
 import requests
 from Scoreboard import Scoreboard
 
-WRITE_TOKEN_URL = ''
-GET_GAME_URL = ''
+POST_TOKEN_URL = 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/token/'
+GET_GAME_URL_BASE = 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/game/'
+POST_GAME_SCORE_URL_BASE = 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/game/'
 
 BUTTON1_GPIO = 4
 BUTTON2_GPIO = 5
@@ -119,8 +119,8 @@ def game_over():
     if game_id:
         #write to aws
         print('write to aws')
-        payload = { 'game_id': game_id, 'home_score': scores[0], 'away_score': scores[1]}
-        req = requests.post(UPDATE_SCORE_URL, json=payload)
+        payload = { 'game_id': game_id, 'player1_score': scores[0], 'player2_score': scores[1]}
+        req = requests.post(POST_GAME_SCORE_URL_BASE + game_id, json=payload)
     #flash score and winner color
 
 def sleep():
@@ -142,21 +142,21 @@ def setup_online():
     button1.when_held = play_game_if_both_pressed
     token = generate_token()
     print("TOKEN = %s" % (token))
-    # write_token_to_aws(token)
+    write_token_to_aws(token)
     token_as_scores = token_to_score_list(token)
     scoreboard.show_score(token_as_scores[0], token_as_scores[1])
-    # while not has_reached_timeout():
-    #     req = requests.get(GET_GAME_URL)
-    #     if(req.status_code == 200):
-    #         res = json.load(req.json())
-    #         play_to_score = res['play_to_score']
-    #         break
-    #     else:
-    #         sleep(1)
-    # if (has_reached_timeout()):
-    #     sleep()
-    # else:
-    #     play_game()
+    while not has_reached_timeout():
+        req = requests.get(GET_GAME_URL_BASE + game_id)
+        if(req.status_code == 200):
+            res = json.load(req.json())
+            play_to_score = res['play_to_score']
+            break
+        else:
+            sleep(1)
+    if (has_reached_timeout()):
+        sleep()
+    else:
+        play_game()
 
 def token_to_score_list(token):
     return [token // 100, token % 100]
@@ -172,12 +172,12 @@ def has_reached_timeout():
 
 def write_token_to_aws(token):
     payload = { 'token': token }
-    req = requests.post(WRITE_TOKEN_URL, json=payload)
+    req = requests.post(POST_TOKEN_URL, json=payload)
     res = json.loads(req.json())
     game_id = res['game_id']
 
 if __name__ == '__main__':
-    # sleep()
+    sleep()
     play_game()
     while True:
         while (state != SLEEP_STATE):
@@ -189,13 +189,10 @@ if __name__ == '__main__':
 
 
 #Endpoints
-# POST /token - PIB Board sending the one-time (15 minute) token needed to start a game
-# GET /game/current - endpoint to poll to get the game_id of the online setup game
+# POST /token - PIB Board sending the one-time (15 minute) token needed to start a game    X
   # Return the game_id
-# POST /game - create a new game (use for quick start only)
-  # Return the game_id
-# POST /game/{game_id} - send final game stats
-# GET /game/{game_id} - get the game stats to be used to set up the game on the PIB
+# POST /game/{game_id} - send final game stats                                             X
+# GET /game/{game_id} - get the game stats to be used to set up the game on the PIB        X
 
 
 
@@ -210,18 +207,10 @@ if __name__ == '__main__':
 # sorted descending by winslist of {Player Name} - {Number of wins} - {Number of losses}
 # |Place|Name|Wins|Losses|Ratio|
 
-
-
-#AWS todo
-# Database table with games
-# (Leaderboard database)
-
-
-
 #Misc todo
-# finish online_setup
+# button hold
+# leaderboard endpoint
 # how to restart with online game?
-# cleanup file
 
 
 
