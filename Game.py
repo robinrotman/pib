@@ -29,7 +29,7 @@ button1.hold_time = BUTTON_HOLD_TIME
 button2.hold_time = BUTTON_HOLD_TIME
 button3.hold_time = BUTTON_HOLD_TIME
 
-scoreboard = Scoreboard('red', 'blue')
+scoreboard = Scoreboard('blue', 'yellow')
 time_of_last_interaction = time.time()
 game_id = None
 state = SLEEP_STATE
@@ -54,7 +54,7 @@ def increase_score(player_index):
 def decrease_score(player_index):
     print("DECREASING PLAYER%d score" % (player_index))
     time_of_last_interaction = time.time()
-    scores[player_index] -= 1
+    scores[player_index] -= 2
     scoreboard.show_score(scores[0], scores[1])
 
 def increase_player1_score():
@@ -116,12 +116,11 @@ def game_over():
     reset_buttons()
     state = GAME_OVER_STATE
     button2.when_held = setup_online
+    scoreboard.show_final_score(scores[0], scores[1])
     if game_id:
-        #write to aws
         print('write to aws')
         payload = { 'game_id': game_id, 'player1_score': scores[0], 'player2_score': scores[1]}
         req = requests.post(POST_GAME_SCORE_URL_BASE + game_id, json=payload)
-    #flash score and winner color
 
 def sleep():
     print("GOING TO SLEEP")
@@ -194,23 +193,8 @@ if __name__ == '__main__':
 # POST /game/{game_id} - send final game stats                                             X
 # GET /game/{game_id} - get the game stats to be used to set up the game on the PIB        X
 
-
-
-#Web app
-# Setup Page
-# # Player1: email text input (verifier: ends with "@thelevelup.com")
-# # Player2: email text input (verifier: ends with "@thelevelup.com")
-# # Max Score: integer (verifier 1-99)
-# # Token: 4 digit integer (verifier 1000-9999)
-
-# Leaderboard Page
-# sorted descending by winslist of {Player Name} - {Number of wins} - {Number of losses}
-# |Place|Name|Wins|Losses|Ratio|
-
 #Misc todo
-# button hold
-# leaderboard endpoint
-# how to restart with online game?
+# button hold, other options seem like too much work. for now just have it adding one and then subtracting 2
 # need a go.html
 
 
