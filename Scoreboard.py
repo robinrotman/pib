@@ -41,7 +41,7 @@ class Scoreboard:
         self.led_strip.value = self.led_values
 
     def show_final_score(self, home_score, away_score):
-    	self.reset_led_values()
+        self.reset_led_values()
         numbers_to_display = self.score_to_digits(home_score)
         numbers_to_display += self.score_to_digits(away_score)
 
@@ -49,7 +49,7 @@ class Scoreboard:
         for i in range(len(numbers_to_display)):
             leds_to_display += self.digits[i].leds_for_display_number(numbers_to_display[i])
         for led in leds_to_display:
-        	self.led_values[led] = self.hyphen_color_value
+            self.led_values[led] = self.hyphen_color_value
         self.led_strip.value = self.led_values
 
     def sleep(self):
