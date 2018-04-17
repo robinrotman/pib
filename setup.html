@@ -247,18 +247,17 @@
 		<a class="active" >Setup</a>
 		<a href="leaderboard.html">Leaderboard</a>
 	</nav>
-	
+
 	<div class="forms-container">
 		<form id="setup-step-1" class="shown">
 			<h1>Let's get this pib party started!</h1>
 			<p>To begin, enter the four flashing digits on the pib</p>
 			<div id="token">
-				<input type="number" class="token-digit" name="digit-1" min="0" max="9">
-				<input type="number" class="token-digit" name="digit-2" min="0" max="9">
-				<input type="number" class="token-digit" name="digit-3" min="0" max="9">
-				<input type="number" class="token-digit" name="digit-4" min="0" max="9">
+				<input id="digit-1" type="number" class="token-digit" name="digit-1" min="0" max="9">
+				<input id="digit-2" type="number" class="token-digit" name="digit-2" min="0" max="9">
+				<input id="digit-3" type="number" class="token-digit" name="digit-3" min="0" max="9">
+				<input id="digit-4" type="number" class="token-digit" name="digit-4" min="0" max="9">
 			</div>
-			
 			<!-- <input type="submit" class="step-1-submit" value="Enter" onsubmit="step_two()"> -->
 
 		</form>
@@ -297,7 +296,7 @@
 			$(this).removeClass('checked');
 		});
 
-		
+
 		function myFunction() {
 			setTimeout(function(){ alert("Hello"); }, 3000);
 		}
@@ -306,48 +305,35 @@
 	</script>
 
 	<script type="text/javascript">
-		
+
 		function sendToken() {
+			token = $('#digit-1').val() * 1000 + $('#digit-2').val() * 100 + $('#digit-3').val() * 10 + $('#digit-4').val()
 
 			$.ajax({
-				url: '/non-existent-path-adsasd',
-				type: "POST",
+				url: 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/token/' + token,
+				type: "GET",
 				dataType: "json",
-				data: {
-					name: "John",
-					location: "Boston"
-				},
+				error: function(jqXHR, textStatus, errorThrown) {
+             		errorAlert();
+             	},
+             	success: function(data, textStatus, jqXHR) {
+             		$('.step-1-submit').click(function() {
+             			$('#setup-step-1').toggleClass('hidden shown');
+             			$('#setup-step-2').toggleClass('hidden shown');
+             			$(this).hide();
+             		});
 
-            /**
-             * A function to be called if the request fails. 
-             */
-             error: function(jqXHR, textStatus, errorThrown) {
-             	errorAlert();
-             },
-
-            /**
-             * A function to be called if the request succeeds.
-             */
-             success: function(data, textStatus, jqXHR) {
-             	$('.step-1-submit').click(function() {
-             		$('#setup-step-1').toggleClass('hidden shown');
-             		$('#setup-step-2').toggleClass('hidden shown');
-             		$(this).hide();
-             	});
-
-
-			// Set another completion function for the request above
-			jqxhr.always(function() {
-				alert( "second finished" );
+             		// Set another completion function for the request above
+					jqxhr.always(function() {
+						alert( "second finished" );
+					});
+				}
 			});
 		}
 
-
-
-
 		function errorAlert() {
 			$('html').prepend('<div class="error"> Something is miscompibulated! If you think you pibbed up, fix it or just try again.</div>');
-			setTimeout(function() { 
+			setTimeout(function() {
 				$('.error').addClass('fade-out');
 			}, 3000);
 			setTimeout(function(){
@@ -368,44 +354,29 @@
 					name: "John",
 					location: "Boston"
 				},
-
-            /**
-             * A function to be called if the request fails. 
-             */
-             error: function(jqXHR, textStatus, errorThrown) {
-             	errorAlert();
-             },
-
-            /**
-             * A function to be called if the request succeeds.
-             */
-             success: function(data, textStatus, jqXHR) {
-             	$('.step-1-submit').click(function() {
-             		$('#setup-step-1').toggleClass('hidden shown');
-             		$('#setup-step-2').toggleClass('hidden shown');
-             		$(this).hide();
-             	});
-
-
-			// Set another completion function for the request above
-			jqxhr.always(function() {
-				alert( "second finished" );
+				error: function(jqXHR, textStatus, errorThrown) {
+             		errorAlert();
+             	},
+             	success: function(data, textStatus, jqXHR) {
+             		$('.step-1-submit').click(function() {
+             			$('#setup-step-1').toggleClass('hidden shown');
+             			$('#setup-step-2').toggleClass('hidden shown');
+             			$(this).hide();
+             		});
+             		// Set another completion function for the request above
+					jqxhr.always(function() {
+						alert( "second finished" );
+					});
+				}
 			});
 		}
 
-
-
-
-
-
 		function go() {
-
 			window.location.href = "go.html";
 				// document.getElementById('confirmed').onclick = function () {
 	   //      location.href = "go.html";
 	   //  };
-
-	}
+		}
 
 </script>
 </body>
