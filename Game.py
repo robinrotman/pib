@@ -174,6 +174,7 @@ def write_token_to_aws(token):
     req = requests.post(POST_TOKEN_URL, json=payload)
     res = req.json()
     game_id = res['game_id']
+    print("GAME_ID = %s" % (game_id))
 
 if __name__ == '__main__':
     sleep()
