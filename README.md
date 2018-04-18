@@ -4,7 +4,7 @@ Our very own pib-pong scoreboard!
 Gettin' pibby with it
 
 
-#Endpoints
+# Endpoints
 * POST /token - PIB Board sending the one-time (15 minute) token needed to start a game     X
 * Return the game_id
 * POST /game/{game_id} - send final game stats                                             X
