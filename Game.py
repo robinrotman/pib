@@ -9,9 +9,9 @@ POST_TOKEN_URL = 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/product
 GET_GAME_URL_BASE = 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/game/'
 POST_GAME_SCORE_URL_BASE = 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/game/'
 
-BUTTON1_GPIO = 4
-BUTTON2_GPIO = 5
-BUTTON3_GPIO = 6
+BUTTON1_GPIO = 5
+BUTTON2_GPIO = 6
+BUTTON3_GPIO = 12
 BUTTON_HOLD_TIME = 3
 SLEEP_TIMEOUT = 15 * 60
 
@@ -29,7 +29,7 @@ button1.hold_time = BUTTON_HOLD_TIME
 button2.hold_time = BUTTON_HOLD_TIME
 button3.hold_time = BUTTON_HOLD_TIME
 
-scoreboard = Scoreboard('blue', 'yellow')
+scoreboard = Scoreboard('yellow', 'blue')
 time_of_last_interaction = time.time()
 game_id = None
 state = SLEEP_STATE
