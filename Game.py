@@ -44,8 +44,7 @@ def setup_online():
     token = generate_token()
     print("TOKEN = %s" % (token))
     game_id = write_token_to_aws(token)
-    token_as_scores = token_to_score_list(token)
-    scoreboard.show_score(token_as_scores[0], token_as_scores[1])
+    scoreboard.show_token(token)
     while not has_reached_timeout():
         req = requests.get(GET_GAME_URL_BASE + str(game_id))
         if(req.status_code == 200):
@@ -143,9 +142,6 @@ def reset():
 def generate_token():
     print("GENERATING TOKEN")
     return random.randint(1000, 10000)
-
-def token_to_score_list(token):
-    return [token // 100, token % 100]
 
 def is_game_over():
     return (((max(scores) >= play_to_score) and has_won_by_two()) or max(scores) == 99)

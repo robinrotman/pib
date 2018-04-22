@@ -24,6 +24,9 @@ class Scoreboard:
     def score_to_digits(self, score):
         return [score // 10, score % 10]
 
+    def token_to_digits(self, token):
+        return [(score // 1000), ((score % 1000) // 100), ((score % 100) // 10), (score % 10)]
+
     def show_score(self, home_score, away_score):
         self.reset_led_values()
         numbers_to_display = self.score_to_digits(home_score)
@@ -38,6 +41,18 @@ class Scoreboard:
                 self.led_values[led] = self.home_color_value
             else:
                 self.led_values[led] = self.away_color_value
+        self.led_strip.value = self.led_values
+
+    def show_token(self, token):
+        self.reset_led_values()
+        numbers_to_display = self.token_to_digits(token)
+
+        leds_to_display = []
+        for i in range(len(numbers_to_display)):
+            leds_to_display += self.digits[i].leds_for_display_number(numbers_to_display[i])
+
+        for led in leds_to_display:
+            self.led_values[led] = self.hyphen_color_value
         self.led_strip.value = self.led_values
 
     def show_final_score(self, home_score, away_score):
