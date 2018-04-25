@@ -25,7 +25,7 @@ class Scoreboard:
         return [score // 10, score % 10]
 
     def token_to_digits(self, token):
-        return [(score // 1000), ((score % 1000) // 100), ((score % 100) // 10), (score % 10)]
+        return [(token // 1000), ((token % 1000) // 100), ((token % 100) // 10), (token % 10)]
 
     def show_score(self, home_score, away_score):
         self.reset_led_values()
