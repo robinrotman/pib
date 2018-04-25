@@ -36,7 +36,7 @@ color_name_to_rgb_tuple = {
     'orange' : (1, .65, 0),
     'yellow': (1, 1, 0),
     'green': (0, 1, 0),
-    'blue': (0, 0, 1),
+    'blue': (0, 0, 1, .2),
     'purple': (1, 0, 1),
     'white': (1, 1, 1)
 }
