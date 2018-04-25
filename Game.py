@@ -170,11 +170,15 @@ if __name__ == '__main__':
             if(has_reached_timeout()):
                 sleep()
                 break
-            elif(is_game_over()):
-                print("GAME OVER!")
-                game_over()
-            else:
-                print("GAME NOT OVER")
+            elif(state == GAME_STATE):
+                if(is_game_over()):
+                    print("GAME OVER!")
+                    game_over()
+            # elif(is_game_over()):
+            #     print("GAME OVER!")
+            #     game_over()
+            # else:
+            #     print("GAME NOT OVER")
 
 #Misc todo
 # button hold, other options seem like too much work. for now just have it adding one and then subtracting 2
