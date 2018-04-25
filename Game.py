@@ -169,7 +169,10 @@ if __name__ == '__main__':
                 sleep()
                 break
             elif(is_game_over()):
+                print("GAME OVER!")
                 game_over()
+            else:
+                print("GAME NOT OVER")
 
 #Misc todo
 # button hold, other options seem like too much work. for now just have it adding one and then subtracting 2
