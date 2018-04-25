@@ -165,8 +165,7 @@ def write_token_to_aws(token):
 if __name__ == '__main__':
     sleep()
     while True:
-        while (state != SLEEP_STATE):
-            print(state)
+        if(state != SLEEP_STATE):
             if(has_reached_timeout()):
                 sleep()
                 break
