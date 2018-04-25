@@ -145,6 +145,7 @@ def generate_token():
     return random.randint(1000, 10000)
 
 def is_game_over():
+    print("CHECKING IS GAME OVER")
     return (((max(scores) >= play_to_score) and has_won_by_two()) or max(scores) == 99)
 
 def has_won_by_two():
