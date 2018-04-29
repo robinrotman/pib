@@ -1,163 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>pib.play</title>
-	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<meta charset="utf-8">
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700" rel="stylesheet">
-	<style type="text/css">
-
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
-	}
-
-	* {
-		font-family: 'Montserrat';
-		color: #ffffff;
-	}
-
-	::placeholder { color: #D1ABF3; } 
-
-	::-webkit-input-placeholder { color: #D1ABF3; } 
-
-	::-moz-placeholder { color: #D1ABF3; } 
-
-	:-ms-input-placeholder { color: #D1ABF3; } 
-
-	:-moz-placeholder { color: #D1ABF3; } 
-
-	input:active,
-	input:focus {
-		background-image: none;
-		outline: 0;
-		-webkit-box-shadow: none;
-		box-shadow: none;
-		border-color: white;
-	}
-
-	body {
-		background-color: #000000;
-		background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-		padding: 0 7%;
-		animation: 1s fadeIn 1 forwards ease-in;
-	}
-
-	#count-num {
-	/*	 display: -ms-inline-flexbox;
-    display: -webkit-inline-flex;
-    display: inline-flex;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-flex-wrap: nowrap;
-    -ms-flex-wrap: nowrap;
-    flex-wrap: nowrap;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -webkit-align-content: stretch;
-    -ms-flex-line-pack: stretch;
-    align-content: stretch;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    text-align: center;
-    vertical-align: middle;*/
-        display: -ms-inline-flexbox;
-    /* display: -webkit-inline-flex; */
-    /* display: flex; */
-    /* -webkit-flex-direction: row; */
-    -ms-flex-direction: row;
-    /* flex-direction: row; */
-    /* -webkit-flex-wrap: nowrap; */
-    -ms-flex-wrap: nowrap;
-    /* flex-wrap: nowrap; */
-    /* -webkit-justify-content: center; */
-    -ms-flex-pack: center;
-    /* justify-content: center; */
-    /* -webkit-align-content: stretch; */
-    -ms-flex-line-pack: stretch;
-    /* align-content: stretch; */
-    /* -webkit-align-items: center; */
-    -ms-flex-align: center;
-    /* align-items: center; */
-    /* text-align: center; */
-    vertical-align: middle;
-    height: 100vh !important;
-    margin: auto 0px !important;
-    display: block;
-    width: 100%;
-    text-align: center;
-    line-height: 100vh;
-    font-size: 5em;
-	}
-
-	/*#count-num > * {
-		 -webkit-order: 0;
-    -ms-flex-order: 0;
-    order: 0;
-    -webkit-flex: 0 1 auto;
-    -ms-flex: 0 1 auto;
-    flex: 0 1 auto;
-    -webkit-align-self: center;
-    -ms-flex-item-align: center;
-    align-self: center;
-    
-	}*/
-
-	#count-num > * {
-    /* -webkit-order: 0; */
-    -ms-flex-order: 0;
-    /* order: 0; */
-    /* -webkit-flex: 0 1 auto; */
-    -ms-flex: 0 1 auto;
-    /* flex: 0 1 auto; */
-    /* -webkit-align-self: center; */
-    -ms-flex-item-align: center;
-    /* align-self: flex-start; */
-    margin: auto 0px !important;
-    width: 100%;
-    height: 100%;
-}
-
-
-</style>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript">
-	$(function(){
-		var timer = setInterval(function(){
-			$("#count-num").html(function(i,html){
-
-				if(parseInt(html)>1) {
-					return parseInt(html)-1;
-				}
-				else {
-					clearTimeout(timer);
-					return '<img id="logo" src="pib-logo-white.svg">';
-				}
-			});
-
-		},1000);
-
-
-
-	});
-</script>
+    <title>pib.play</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700">
+    <link rel="stylesheet" href="styles/styles.css">
+    <style type="text/css">
+        body {
+            background-color: #000000;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            padding: 0 7%;
+            animation: 1s fadeIn 1 forwards ease-in;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="scripts/go.js"></script>
 </head>
 <body>
-	<!-- <img id="logo" src="pib-logo-white.svg"> -->
-	
-	<span id="count-num">3</span>
-	<span id="back_to_home"></span>
-	
-	
-
-	
+    <span id="count-num">3</span>
+    <span id="back_to_home"></span>
 </body>
 </html>
