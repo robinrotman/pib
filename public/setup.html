@@ -257,14 +257,14 @@
 	</nav>
 
 	<div class="forms-container">
-		<form id="setup-step-1" class="shown">
+		<form id="setup-step-1" name="tokenForm" class="shown">
 			<h1>Let's get this pib party started!</h1>
 			<p>To begin, enter the four flashing digits on the pib</p>
 			<div id="token">
-				<input id="digit-1" type="number" class="token-digit" name="digit-1" min="0" max="9">
-				<input id="digit-2" type="number" class="token-digit" name="digit-2" min="0" max="9">
-				<input id="digit-3" type="number" class="token-digit" name="digit-3" min="0" max="9">
-				<input id="digit-4" type="number" class="token-digit" name="digit-4" min="0" max="9">
+				<input id="digit-1" name="digit1" type="number" class="token-digit" name="digit-1" min="0" max="9" oninput="autotabTokenInput(this, document.tokenForm.digit2)">
+				<input id="digit-2" name="digit2" type="number" class="token-digit" name="digit-2" min="0" max="9" oninput="autotabTokenInput(this, document.tokenForm.digit3)">
+				<input id="digit-3" name="digit3" type="number" class="token-digit" name="digit-3" min="0" max="9" oninput="autotabTokenInput(this, document.tokenForm.digit4)">
+				<input id="digit-4" name="digit4" type="number" class="token-digit" name="digit-4" min="0" max="9">
 			</div>
 		</form>
 		<button class="step-1-submit shown" onclick="sendToken()">enter</button>
@@ -360,6 +360,12 @@
          			window.location.href = 'go.html'
 				}
 			});
+		}
+
+		function autotabTokenInput(current, to) {
+			if (current.getAttribute && current.value.length == 1) {
+				to.focus()
+			}
 		}
 
 	</script>

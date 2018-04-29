@@ -181,8 +181,3 @@ if __name__ == '__main__':
                 if(is_game_over()):
                     print("GAME OVER!")
                     game_over()
-            # elif(is_game_over()):
-            #     print("GAME OVER!")
-            #     game_over()
-            # else:
-            #     print("GAME NOT OVER")
