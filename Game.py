@@ -1,13 +1,17 @@
 from gpiozero import Button
-import time
 import json
+import os
+import time
 import random
 import requests
 from Scoreboard import Scoreboard
 
-POST_TOKEN_URL = 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/token/'
-GET_GAME_URL_BASE = 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/game/'
-POST_GAME_SCORE_URL_BASE = 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/game/'
+API_BASE_URL = os.environ.get('API_BASE_URL')
+POST_TOKEN_URL = API_BASE_URL + '/token/'
+GAME_URL_TEMPLATE = API_BASE_URL + '/game/{}'
+# POST_TOKEN_URL = 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/token/'
+# GET_GAME_URL_BASE = 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/game/'
+# POST_GAME_SCORE_URL_BASE = 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/game/'
 
 BUTTON1_GPIO = 5
 BUTTON2_GPIO = 6
@@ -47,7 +51,7 @@ def setup_online():
     game_id = write_token_to_aws(token)
     scoreboard.show_token(token)
     while not has_reached_timeout():
-        req = requests.get(GET_GAME_URL_BASE + str(game_id))
+        req = requests.get(GAME_URL_TEMPLATE.format(game_id))
         if(req.status_code == 200):
             res = req.json()
             play_to_score = res['play_to_score']
@@ -79,7 +83,7 @@ def game_over():
     if game_id:
         print('write to aws')
         payload = { 'game_id': game_id, 'player1_score': scores[0], 'player2_score': scores[1]}
-        req = requests.post(POST_GAME_SCORE_URL_BASE + game_id, json=payload)
+        req = requests.post(GAME_URL_TEMPLATE.format(game_id), json=payload)
 
 def sleep():
     print("GOING TO SLEEP")
@@ -169,7 +173,6 @@ if __name__ == '__main__':
         if(state != SLEEP_STATE):
             if(has_reached_timeout()):
                 sleep()
-                break
             elif(state == GAME_STATE):
                 if(is_game_over()):
                     print("GAME OVER!")
