@@ -184,10 +184,13 @@ if __name__ == '__main__':
             #     print("GAME NOT OVER")
 
 #Misc todo
+# SET API_BASE_URL env var on pib
 # button hold, other options seem like too much work. for now just have it adding one and then subtracting 2
 # add aws config to source
-# deploy scripts/organize repo
+# deploy scripts
 # Game over not working?
+  # casted the play_to_score from response to an int. did that work?
+  # do I need to do long(time.time())?
 # run python program on boot
 
 #Enhancements

@@ -1,9 +1,15 @@
 import boto3
-import random
 import json
+import random
+import time
+
+DEFAULT_TTL = 15 * 60
 
 dynamodb = boto3.resource('dynamodb')
 token_table = dynamodb.Table('Tokens')
+
+def ttl():
+    return time.time() + DEFAULT_TTL
 
 def lambda_handler(event, context):
     body = json.loads(event['body'])
@@ -12,7 +18,8 @@ def lambda_handler(event, context):
     token_table.put_item(
         Item={
             'token': token,
-            'game_id': game_id
+            'game_id': game_id,
+            'ttl': ttl()
         }
     )
     response = {
