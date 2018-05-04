@@ -46,6 +46,7 @@ def setup_online():
     print("ONLINE SETUP")
     reset_buttons()
     state = ONLINE_SETUP_STATE
+    print(state)
     button1.when_held = play_game_if_both_pressed
     token = generate_token()
     print("TOKEN = %s" % (token))
@@ -177,7 +178,6 @@ def write_token_to_aws(token):
 if __name__ == '__main__':
     sleep()
     while True:
-        print(state)
         if(state != SLEEP_STATE):
             print('not sleeping')
             if(has_reached_timeout()):
