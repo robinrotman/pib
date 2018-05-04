@@ -57,6 +57,7 @@ def setup_online():
         if(req.status_code == 200):
             res = req.json()
             play_to_score = int(res['play_to_score'])
+            print(play_to_score)
             break
         else:
             time.sleep(1)
