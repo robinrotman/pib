@@ -5,7 +5,7 @@ from gpiozero import SPIDevice
 class Apa102Pixel(SPIDevice):
     def __init__(self, *args, **kwargs):
         super(Apa102Pixel, self).__init__(*args, **kwargs)
-        self._brightness = 255.0
+        self._brightness = 175.0
         self._value = (0, 0, 0)
 
     @property
