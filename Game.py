@@ -177,7 +177,9 @@ def write_token_to_aws(token):
 if __name__ == '__main__':
     sleep()
     while True:
+        print(state)
         if(state != SLEEP_STATE):
+            print('not sleeping')
             if(has_reached_timeout()):
                 sleep()
             elif(state == GAME_STATE):
