@@ -164,8 +164,8 @@ def has_reached_timeout():
 def write_token_to_aws(token):
     payload = { 'token': token }
     headers = { 'x-api-key': API_KEY }
-    print(headers)
     req = requests.post(POST_TOKEN_URL, headers=headers, json=payload)
+    print(req)
     res = req.json()
     print(res)
     game_id = res['game_id']
