@@ -181,6 +181,7 @@ if __name__ == '__main__':
             if(has_reached_timeout()):
                 sleep()
             elif(state == GAME_STATE):
+                print('woo game!')
                 if(is_game_over()):
                     print("GAME OVER!")
                     game_over()
