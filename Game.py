@@ -181,10 +181,10 @@ def generate_token():
     return random.randint(1000, 10000)
 
 def is_game_over():
-    print("CHECKING IS GAME OVER")
     return (((max(scores) >= play_to_score) and has_won_by_two()) or max(scores) == 99)
 
 def has_won_by_two():
+    print("CHECKING IF WON BY TWO")
     return abs(scores[0] - scores[1]) >= 2
 
 def has_reached_timeout():
@@ -196,9 +196,7 @@ def write_token_to_aws(token):
     payload = { 'token': token }
     headers = { 'x-api-key': API_KEY }
     req = requests.post(POST_TOKEN_URL, headers=headers, json=payload)
-    print(req)
     res = req.json()
-    print(res)
     game_id = res['game_id']
     print("GAME_ID = %s" % (game_id))
     return game_id
@@ -208,11 +206,9 @@ if __name__ == '__main__':
     sleep()
     while True:
         if(state != SLEEP_STATE):
-            print('not sleeping')
             if(has_reached_timeout()):
                 sleep()
             elif(state == GAME_STATE):
-                print('woo game!')
                 if(is_game_over()):
                     print("GAME OVER!")
                     game_over()
