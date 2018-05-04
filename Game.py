@@ -1,13 +1,18 @@
 from gpiozero import Button
-import time
 import json
+import os
+import time
 import random
 import requests
 from Scoreboard import Scoreboard
 
-POST_TOKEN_URL = 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/token/'
-GET_GAME_URL_BASE = 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/game/'
-POST_GAME_SCORE_URL_BASE = 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/game/'
+API_KEY = os.environ.get('API_KEY')
+API_BASE_URL = os.environ.get('API_BASE_URL')
+POST_TOKEN_URL = API_BASE_URL + '/token/'
+GAME_URL_TEMPLATE = API_BASE_URL + '/game/{}'
+# POST_TOKEN_URL = 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/token/'
+# GET_GAME_URL_BASE = 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/game/'
+# POST_GAME_SCORE_URL_BASE = 'https://1bj8u6759k.execute-api.us-east-2.amazonaws.com/production/game/'
 
 BUTTON1_GPIO = 5
 BUTTON2_GPIO = 6
@@ -47,10 +52,11 @@ def setup_online():
     game_id = write_token_to_aws(token)
     scoreboard.show_token(token)
     while not has_reached_timeout():
-        req = requests.get(GET_GAME_URL_BASE + str(game_id))
+        headers = { 'x-api-key': API_KEY }
+        req = requests.get(GAME_URL_TEMPLATE.format(game_id), headers=headers)
         if(req.status_code == 200):
             res = req.json()
-            play_to_score = res['play_to_score']
+            play_to_score = int(res['play_to_score'])
             break
         else:
             time.sleep(1)
@@ -79,7 +85,8 @@ def game_over():
     if game_id:
         print('write to aws')
         payload = { 'game_id': game_id, 'player1_score': scores[0], 'player2_score': scores[1]}
-        req = requests.post(POST_GAME_SCORE_URL_BASE + game_id, json=payload)
+        headers = { 'x-api-key': API_KEY }
+        req = requests.post(GAME_URL_TEMPLATE.format(game_id), headers=headers, json=payload)
 
 def sleep():
     print("GOING TO SLEEP")
@@ -156,7 +163,8 @@ def has_reached_timeout():
 
 def write_token_to_aws(token):
     payload = { 'token': token }
-    req = requests.post(POST_TOKEN_URL, json=payload)
+    headers = { 'x-api-key': API_KEY }
+    req = requests.post(POST_TOKEN_URL, headers=headers, json=payload)
     res = req.json()
     game_id = res['game_id']
     print("GAME_ID = %s" % (game_id))
@@ -169,26 +177,7 @@ if __name__ == '__main__':
         if(state != SLEEP_STATE):
             if(has_reached_timeout()):
                 sleep()
-                break
             elif(state == GAME_STATE):
                 if(is_game_over()):
                     print("GAME OVER!")
                     game_over()
-            # elif(is_game_over()):
-            #     print("GAME OVER!")
-            #     game_over()
-            # else:
-            #     print("GAME NOT OVER")
-
-#Misc todo
-# button hold, other options seem like too much work. for now just have it adding one and then subtracting 2
-# add aws config to source
-# deploy scripts/organize repo
-# Game over not working?
-# run python program on boot
-
-#Enhancements
-# remote buttons/iot buttons
-# native apps
-# user accounts
-# request game in app?
