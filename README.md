@@ -18,12 +18,12 @@ Gettin' pibby with it
 
 
 # Todo
-* SET API_BASE_URL env var on pib
-* SET API_KEY env var on pib
+* ~SET API_BASE_URL env var on pib~
+* ~SET API_KEY env var on pib~
 * Game over not working?
   * casted the play_to_score from response to an int. did that work?
   * do I need to do long(time.time())?
-* Update led brightness (set in apa102.py line 8)
+* ~Update led brightness (set in apa102.py line 8)~
 * Add authorization to web app api endpoints
 * button hold, other options seem like too much work. for now just have it adding one and then subtracting 2
 * run python program on boot

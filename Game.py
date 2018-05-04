@@ -166,6 +166,7 @@ def write_token_to_aws(token):
     headers = { 'x-api-key': API_KEY }
     req = requests.post(POST_TOKEN_URL, headers=headers, json=payload)
     res = req.json()
+    print(res)
     game_id = res['game_id']
     print("GAME_ID = %s" % (game_id))
     return game_id
