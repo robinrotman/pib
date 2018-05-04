@@ -43,6 +43,10 @@ scores = [0, 0]
 
 #States
 def setup_online():
+    global game_id
+    global state
+    global play_to_score
+
     print("ONLINE SETUP")
     reset_buttons()
     state = ONLINE_SETUP_STATE
@@ -68,6 +72,8 @@ def setup_online():
         play_game()
 
 def play_game():
+    global state
+
     print("GAME START")
     reset_buttons()
     state = GAME_STATE
@@ -79,6 +85,8 @@ def play_game():
     button2.when_held = setup_online
 
 def game_over():
+    global state
+
     print("GAME OVER")
     reset_buttons()
     state = GAME_OVER_STATE
@@ -91,6 +99,8 @@ def game_over():
         req = requests.post(GAME_URL_TEMPLATE.format(game_id), headers=headers, json=payload)
 
 def sleep():
+    global state
+
     print("GOING TO SLEEP")
     reset_buttons()
     reset()
@@ -100,30 +110,42 @@ def sleep():
 
 #Button Functions
 def increase_score(player_index):
+    global time_of_last_interaction
+
     print("INCREASING PLAYER%d score" % (player_index))
     time_of_last_interaction = time.time()
     scores[player_index] += 1
     scoreboard.show_score(scores[0], scores[1])
 
 def decrease_score(player_index):
+    global time_of_last_interaction
+
     print("DECREASING PLAYER%d score" % (player_index))
     time_of_last_interaction = time.time()
     scores[player_index] -= 2
     scoreboard.show_score(scores[0], scores[1])
 
 def increase_player1_score():
+    global time_of_last_interaction
+
     time_of_last_interaction = time.time()
     increase_score(0)
 
 def increase_player2_score():
+    global time_of_last_interaction
+
     time_of_last_interaction = time.time()
     increase_score(1)
 
 def decrease_player1_score():
+    global time_of_last_interaction
+
     time_of_last_interaction = time.time()
     decrease_score(0)
 
 def decrease_player2_score():
+    global time_of_last_interaction
+
     time_of_last_interaction = time.time()
     decrease_score(1)
 
@@ -143,6 +165,11 @@ def reset_buttons():
 
 #Helpers
 def reset():
+    global game_id
+    global play_to_score
+    global scores
+    global time_of_last_interaction
+
     print("RESET")
     time_of_last_interaction = time.time()
     game_id = None
@@ -164,6 +191,8 @@ def has_reached_timeout():
     return time.time() - time_of_last_interaction >= SLEEP_TIMEOUT
 
 def write_token_to_aws(token):
+    global game_id
+
     payload = { 'token': token }
     headers = { 'x-api-key': API_KEY }
     req = requests.post(POST_TOKEN_URL, headers=headers, json=payload)
