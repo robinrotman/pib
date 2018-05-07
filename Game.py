@@ -1,3 +1,4 @@
+import atexit
 from gpiozero import Button
 import json
 import os
@@ -107,6 +108,7 @@ def sleep():
     state = SLEEP_STATE
     button1.when_held = play_game_if_both_pressed
     button2.when_held = setup_online
+    scoreboard.sleep()
 
 #Button Functions
 def increase_score(player_index):
@@ -200,6 +202,12 @@ def write_token_to_aws(token):
     game_id = res['game_id']
     print("GAME_ID = %s" % (game_id))
     return game_id
+
+def shutdown():
+    reset()
+    scoreboard.sleep()
+
+atexit.register(shutdown)
 
 #Main
 if __name__ == '__main__':
