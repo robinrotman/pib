@@ -7,7 +7,7 @@ import random
 import requests
 from Scoreboard import Scoreboard
 
-API_KEY = os.environ.get('API_KEY')
+# API_KEY = os.environ.get('API_KEY')
 API_BASE_URL = os.environ.get('API_BASE_URL')
 POST_TOKEN_URL = API_BASE_URL + '/token/'
 GAME_URL_TEMPLATE = API_BASE_URL + '/game/{}'
@@ -58,8 +58,7 @@ def setup_online():
     game_id = write_token_to_aws(token)
     scoreboard.show_token(token)
     while not has_reached_timeout():
-        headers = { 'x-api-key': API_KEY }
-        req = requests.get(GAME_URL_TEMPLATE.format(game_id), headers=headers)
+        req = requests.get(GAME_URL_TEMPLATE.format(game_id))
         if(req.status_code == 200):
             res = req.json()
             play_to_score = int(res['play_to_score'])
@@ -96,8 +95,7 @@ def game_over():
     if game_id:
         print('write to aws')
         payload = { 'game_id': game_id, 'player1_score': scores[0], 'player2_score': scores[1]}
-        headers = { 'x-api-key': API_KEY }
-        req = requests.post(GAME_URL_TEMPLATE.format(game_id), headers=headers, json=payload)
+        req = requests.post(GAME_URL_TEMPLATE.format(game_id), json=payload)
 
 def sleep():
     global state
@@ -196,8 +194,7 @@ def write_token_to_aws(token):
     global game_id
 
     payload = { 'token': token }
-    headers = { 'x-api-key': API_KEY }
-    req = requests.post(POST_TOKEN_URL, headers=headers, json=payload)
+    req = requests.post(POST_TOKEN_URL, json=payload)
     res = req.json()
     game_id = res['game_id']
     print("GAME_ID = %s" % (game_id))
