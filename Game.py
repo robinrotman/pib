@@ -52,6 +52,7 @@ def setup_online():
 
     print("ONLINE SETUP")
     reset_buttons()
+    reset()
     state = ONLINE_SETUP_STATE
     print(state)
     button1.when_held = play_game_if_both_pressed
