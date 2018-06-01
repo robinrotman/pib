@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import atexit
 from gpiozero import Button
 import json
